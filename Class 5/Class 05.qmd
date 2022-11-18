@@ -1,0 +1,71 @@
+---
+title: "Class 05: Data Visualization with ggplot2"
+author: "Eric Jordahl"
+format: pdf
+toc: true
+---
+
+
+# Our first plot
+
+R has base graphics
+
+```{r}
+plot(cars)
+```
+
+How would I plot this with `ggplot2`?
+
+Every ggplot nees at least 3 layers:
+
+- **Data** (i.e. the data.frame we have),
+
+- **Aes** (the aesthettic mapping of our data to what we want to plot)
+
+- **Geoms** (How we want to plot this stuff!)
+
+```{r}
+library(ggplot2)
+ggplot(data=cars) + aes(x=speed, y=dist) + geom_point() + labs(title= "Car speed vs Stopping Distance", x = "Speed (MPH)", y = "Stopping Distance (Feet)", subtitle =  "Eric Jordahl", caption = "Dataset: 'cars'") + geom_smooth(method=lm, se=FALSE) + theme_bw()
+```
+
+# A More Interesting Plot
+
+First read the data from online
+```{r}
+url <- "https://bioboot.github.io/bimm143_S20/class-material/up_down_expression.txt"
+genes <- read.delim(url)
+head(genes)
+```
+
+**Q1. How many genes are in this data set?**
+
+There are `r nrow(genes)` genes in this data set.
+
+**Q2. How many columns are in this data set?**
+
+There are `r ncol(genes)` columns in this data set with names `r colnames(genes)`
+
+**Q3. How many upregulated genes are there?**
+
+```{r}
+up_genes <- table(genes$State=="up")
+up_genes[2]
+```
+The number of upregulated genes is `r up_genes[2]`
+
+**Q4. What fraction of total genes is up-regulated in this data set?**
+
+The fraction of total genes upregulated is `r up_genes[2]/nrow(genes)*100`
+
+
+```{r}
+library(ggplot2)
+p <- ggplot(data=genes) + 
+  aes(x=Condition1, y=Condition2, col=State) + 
+  geom_point(alpha=0.3) + 
+  labs(title="Gene Expression Changes Upon Drug Treatment", x="Control (No Drug)", y="Drug Treatment", subtitle="Eric Jordahl", caption="Dataset: Genes") 
+p + scale_colour_manual( values=c("skyblue","gray","orchid") )
+
+```
+

@@ -1,0 +1,70 @@
+---
+title: "Class 12: RNASeq analysis"
+author: "Eric Jordahl"
+format: html
+date: 2022-11-4
+toc: TRUE
+---
+
+
+## Transcriptomics
+
+# Import CountData and ColData
+
+
+```{r}
+library(BiocManager)
+library(DESeq2)
+```
+
+```{r}
+counts <- read.csv("airway_scaledcounts.csv", row.names=1)
+metadata <-  read.csv("airway_metadata.csv")
+```
+
+```{r}
+head(counts)
+head(metadata)
+```
+
+
+# **Q1**
+**How many genes are in this dataset?**
+
+
+```{r}
+nrow(counts)
+```
+
+
+There are `r nrow(counts)` genes in this dataset
+
+# **Q2**
+**How many ‘control’ cell lines do we have?**
+
+
+```{r}
+table(metadata$dex)
+```
+
+
+There are 4 control cell lines in thsi dataset
+
+## Toy Differential Gene Expression
+
+
+```{r}
+control <- metadata[metadata[,"dex"]=="control",]
+control.counts <- counts[ ,control$id]
+control.mean <- rowSums( control.counts )/4 
+head(control.mean)
+```
+
+```{r}
+library(dplyr)
+control <- metadata %>% filter(dex=="control")
+control.counts <- counts %>% select(control$id) 
+control.mean <- rowSums(control.counts)/4
+head(control.mean)
+```
+

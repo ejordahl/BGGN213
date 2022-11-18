@@ -1,0 +1,51 @@
+---
+title: "HW 06"
+author: "Eric Jordahl"
+format: pdf
+date: 2022-10-14
+toc: TRUE
+---
+
+# Can you improve this analysis code?
+## Previous Code
+```{r}
+library(bio3d)
+
+s1 <- read.pdb("4AKE") # kinase with drug
+s2 <- read.pdb("1AKE") # kinase no drug
+s3 <- read.pdb("1E4Y") # kinase with drug
+
+s1.chainA <- trim.pdb(s1, chain="A", elety="CA")
+s2.chainA <- trim.pdb(s2, chain="A", elety="CA")
+s3.chainA <- trim.pdb(s3, chain="A", elety="CA")
+
+s1.b <- s1.chainA$atom$b
+s2.b <- s2.chainA$atom$b
+s3.b <- s3.chainA$atom$b
+
+plotb3(s1.b, sse=s1.chainA, typ="l", ylab="Bfactor")
+plotb3(s2.b, sse=s2.chainA, typ="l", ylab="Bfactor")
+plotb3(s3.b, sse=s3.chainA, typ="l", ylab="Bfactor")
+```
+
+## New Function
+```{r}
+library(bio3d)
+
+plot_pdb_id <- function(pdb_id) {
+  #Reading pdb file
+  pdb_id <- read.pdb(pdb_id)
+  #Extracting the A chain
+  s.chainA <- trim.pdb(pdb_id, chain="A",elety="CA")
+  #Extracting the atom (Bfactor)
+  s.b <- s.chainA$atom$b
+  #Plot Bfactor vs. Residue
+  plotb3(s.b, sse =s.chainA, typ="l", ylab="Bfactor")}
+```
+Now a user can use the "plot_pbd_id" function to plot any 4 character pdb identifier to get a plot of the Bfactor to the residue of the chain. (Examples shown below)
+```{r}
+plot_pdb_id("4AKE")
+plot_pdb_id("1AKE")
+plot_pdb_id("1E4Y")
+```
+

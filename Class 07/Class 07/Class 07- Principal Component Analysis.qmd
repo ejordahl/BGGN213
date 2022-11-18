@@ -1,0 +1,166 @@
+---
+title: "Class 07: Machine Learning 1"
+author: "Eric Jordahl"
+format: pdf
+date: 10-19-2022
+toc: TRUE
+---
+
+# K-means Clustering
+
+Let's make up some data to cluster.
+
+```{r}
+tmp <- c(rnorm(30, -3), rnorm(30,3))
+x <- cbind(x=tmp, y=rev(tmp))
+plot(x)
+```
+This function to do k-means clustering in base R is `kmeans()` . We give this our input data for clustering and the number of clusters we want `centers`.
+
+**Q. How many points are in each cluster?**
+**Q. What ‘component’ of your result object details**
+ - cluster size?
+ - cluster assignment/membership?
+ - cluster center?
+```{r}
+km <- kmeans(x, centers=4, nstart=20)
+km
+```
+
+
+```{r}
+km$cluster
+```
+
+Q. Plot y colored by the kmeans cluster assignment and add cluster centers as blue points
+
+```{r}
+plot (x, col=km$cluster)
+points(km$centers, col="blue", pch=15, cex=1.5)
+```
+
+# Heirarchical Clustering
+
+The `hclust()` function performs hierarchical clustering. The big advantage here is I don't need to tell it 'k' the number of clusters
+
+To run `hclust()` I need to provide a distance matrix as input (not the original data)
+
+```{r}
+hc <- hclust(dist(x))
+hc
+```
+```{r}
+plot(hc)
+abline(h=8, col="red")
+```
+
+To get my "main" result (cluster membership) I want ot "cut" the tree to yield "branches" whose leaves are the members of the cluster
+
+```{r}
+grps <- cutree(hc, k=2)
+```
+
+Make a plot of our `hclust()` results i.e. our data colored by cluster assignment!
+```{r}
+plot(x, col=grps)
+```
+
+# Principal Component Analysis
+ 
+
+```{r}
+url <- "https://tinyurl.com/UK-foods"
+x <- read.csv(url)
+```
+
+# **Q1.**
+**How many rows and columns are in your new data frame named x? What R functions could you use to answer this questions?**
+To solve for the number of rows and columns you can use the nrow() and ncol() function on the data set, so there are `r nrow(x)` rows and `r ncol(x)` columns
+
+## Preview the first 6 rows
+To display the first 6 rows, you can use the head() function, so the first six rows are
+
+```{r}
+head(x)
+```
+
+```{r}
+rownames(x) <- x[,1]
+x <- x[,-1]
+head(x)
+```
+
+```{r}
+x <- read.csv(url, row.names =1)
+head(x)
+```
+
+#**Q2.**
+**Which approach to solving the ‘row-names problem’ mentioned above do you prefer and why? Is one approach more robust than another under certain circumstances?**
+
+I prefer the (url, row.names=1) because this sets the entire data set up correctly with row names before anything needs to be computed in the smallest amount of steps. This also does not have any opportunity to accidentally remove rows, which will happen if you "play" the chunk too many times.
+
+```{r}
+barplot(as.matrix(x), beside=T, col=rainbow(nrow(x)))
+```
+
+# **Q3**
+**Changing what optional argument in the above barplot() function results in the following plot?**
+
+You need to take the "beside" argument and make it false so that the categories stack (though this makes them incredibly difficult to compare).
+```{r}
+barplot(as.matrix(x), beside=F, col=rainbow(nrow(x)))
+```
+
+# **Q5** 
+**Generating all pairwise plots may help somewhat. Can you make sense of the following code and resulting figure? What does it mean if a given point lies on the diagonal for a given plot?**
+
+```{r}
+pairs.default(x, col = rainbow(10), pch = 16)
+```
+
+If a data point lies on the y=x diagonal, that category (color of dot) is equal between the two countries that are being compared. 
+
+# **Q6** 
+**What is the main differences between N. Ireland and the other countries of the UK in terms of this data-set?**
+
+The most standout point for N. Ireland is the one represented by the "blue" data point, which stands out from all of the other countries from which it is being compared as it is much lower in that category for each of those. 
+
+## PCA to the rescue!
+
+The main function is base R to do PCA is called `prcomp()`. One issue with the `prcomp()` 
+
+```{r}
+t(x)
+```
+
+```{r}
+pca <- prcomp(t(x))
+summary(pca)
+```
+
+The object returned by `prcomp()` has our results that include our $X component. This is our "scores" along the PCs (i.e. The plot of the data along the new PC axis).
+
+# **Q7**
+**Complete the code below to generate a plot of PC1 vs PC2. The second line adds text labels over the data points** 
+
+```{r}
+plot(pca$x[,1], pca$x[,2], xlab="PC1", ylab="PC2", xlim=c(-270,500))
+text(pca$x[,1], pca$x[,2], colnames(x))
+```
+
+
+# **Q8**
+**Customize your plot so that the colors of the country names match the colors in our UK and Ireland map and table at start of this document**
+
+```{r}
+plot(pca$x[,1], pca$x[,2], xlab="PC1", ylab="PC2", xlim=c(-270,500))
+text(pca$x[,1], pca$x[,2], colnames(x), col=c("red", "orange", "blue", "darkgreen")) 
+```
+
+# Variable Loadings
+
+```{r}
+par(mar=c(10, 3, 0.35, 0))
+barplot( pca$rotation[,1], las=2 )
+```
