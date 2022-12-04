@@ -1,0 +1,25 @@
+---
+title: "Find A Gene Project"
+author: "Eric Jordahl"
+format: html
+---
+
+```{r}
+library(bio3d)
+alignment <- read.fasta(file = "Derl1.fst")
+seqidentitymatrix <- seqidentity(alignment, normalize=TRUE, similarity=FALSE, ncore=1, nseg.scale=1)
+heatmap(seqidentitymatrix, margins = c(10,10), cexRow = 0.8, cexCol = 0.8)
+```
+
+```{r}
+consensus_sequence <- consensus(alignment)
+pdb.blast <- blast.pdb(consensus_sequence$seq)
+pdb.blast
+```
+
+```{r}
+pdb <- read.pdb("7CZB")
+pdb
+
+```
+

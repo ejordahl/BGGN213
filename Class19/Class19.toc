@@ -1,0 +1,22 @@
+\contentsline {section}{\nonumberline 1. Investigating Pertussis Cases By Year}{2}{section*.3}%
+\contentsline {subsection}{\nonumberline Q1}{2}{subsection*.5}%
+\contentsline {section}{\nonumberline 2. A Tale of Two Vaccines}{4}{section*.8}%
+\contentsline {subsection}{\nonumberline Q3}{5}{subsection*.11}%
+\contentsline {section}{\nonumberline 3. Exploring CMI-PB data}{5}{section*.13}%
+\contentsline {subsection}{\nonumberline Q4}{5}{subsection*.15}%
+\contentsline {subsection}{\nonumberline Q5}{6}{subsection*.17}%
+\contentsline {subsection}{\nonumberline Q6}{6}{subsection*.19}%
+\contentsline {subsection}{\nonumberline Working with Dates}{6}{subsection*.21}%
+\contentsline {subsection}{\nonumberline Q7}{7}{subsection*.23}%
+\contentsline {subsection}{\nonumberline Q8}{8}{subsection*.25}%
+\contentsline {subsection}{\nonumberline Q9}{8}{subsection*.27}%
+\contentsline {subsection}{\nonumberline Joining multiple tables}{9}{subsection*.30}%
+\contentsline {subsection}{\nonumberline Q9}{10}{subsection*.32}%
+\contentsline {subsection}{\nonumberline Q10}{10}{subsection*.34}%
+\contentsline {subsection}{\nonumberline Q11}{11}{subsection*.36}%
+\contentsline {subsection}{\nonumberline Q12}{11}{subsection*.38}%
+\contentsline {section}{\nonumberline 4. Examine IgG1 Ab titer levels}{11}{section*.40}%
+\contentsline {subsection}{\nonumberline Q13}{11}{subsection*.42}%
+\contentsline {subsection}{\nonumberline Q14}{13}{subsection*.45}%
+\contentsline {subsection}{\nonumberline Q15}{15}{subsection*.49}%
+\providecommand \tocbasic@end@toc@file {}\tocbasic@end@toc@file 
